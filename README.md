@@ -66,10 +66,74 @@ ___
 
 ___
 
-## História de Usuário 09 - Gerenciar informações
+## História de Usuário 09 - Cadastrar aluno
 
     Eu, como secretaria,
-    desejo gerenciar informações sobre os alunos, professores e disciplinas
-    para conseguir administrar o andamento semestral da universidade.
+    desejo cadastrar um novo aluno
+    para que ele tenha aceso ao sistema acadêmico.
+
+___
+
+## História de Usuário 10 - Atualizar aluno
+
+    Eu, como secretaria,
+    desejo atualizar os dados de um aluno
+    para que eu possa corrigir possíveis informações incorretas.
+
+___
+
+## História de Usuário 11 - Consultar aluno
+
+    Eu, como secretaria,
+    desejo consultar os dados de um aluno
+    para que eu possa confirmar os dados de um aluno.
+
+___
+
+## História de Usuário 12 - Cadastrar disciplina
+
+    Eu, como secretaria,
+    desejo cadastrar uma nova disciplina
+    para que ele possa ser integrada ao novo curriculo semestral.
+
+___
+
+## História de Usuário 13 - Atualizar disciplina
+
+    Eu, como secretaria,
+    desejo atualizar as informações de uma disciplina
+    para que eu possa corrigir possíveis informações incorretas.
+
+___
+
+## História de Usuário 14 - Consultar disciplina
+
+    Eu, como secretaria,
+    desejo consultar as informações de uma disciplina
+    para que eu possa confirmar a descrição de uma disciplina.
+
+___
+
+## História de Usuário 15 - Cadastrar professor
+
+    Eu, como secretaria,
+    desejo cadastrar uma novo professor
+    para que ele possa integrar ao campo docente da faculdade.
+
+___
+
+## História de Usuário 16 - Atualizar professor
+
+    Eu, como secretaria,
+    desejo atualizar as informações de um professor
+    para que eu possa corrigir possíveis informações incorretas.
+
+___
+
+## História de Usuário 17 - Consultar professor
+
+    Eu, como secretaria,
+    desejo consultar as informações de um professor
+    para que eu possa consultar quais disciplinas ele está lecionando.
 
 ___

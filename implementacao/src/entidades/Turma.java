@@ -156,7 +156,7 @@ public class Turma implements Serializable {
         StringBuilder sb = new StringBuilder("Informações da turma:");
         sb.append("ID: " + this.id);
         sb.append("Status: " + this.status.getDescricao());
-        sb.append("Nome: this.disciplina.getNome()"); // NECESSÁRIO FAZER O .getNome() da Disciplna
+        sb.append("Nome: " + this.disciplina.getNome());
         sb.append("Ano/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
         sb.append("Professor: this.professor.getNome()"); // NECESSÁRIO FAZER .getNome() do Professor
         if(!this.status.equals(TurmaStatus.INATIVA))

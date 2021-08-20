@@ -1,44 +1,33 @@
 package entidades;
 
-import entidades.enums.TipoDisciplina;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Disciplina implements Serializable  {
+public class Curso implements Serializable {
     private static final long serialVersionUID = 1L;
     private static int idCounter;
 
     private int id;
     private String nome;
-    private int horas;
-    private int creditos;
-    private TipoDisciplina tipo;
+    private int creditoNecessarios;
+
+    private List<Aluno> disciplinas;
 
     static {
         idCounter = 0;
     }
     
-    public void cadastrar(String nome, int horas, int creditos, TipoDisciplina tipo){
-        this.id = criarID();
-        this.nome = nome;
-        this.setHoras(horas);
-        this.setCreditos(creditos);
-        this.tipo = tipo;
+    public void gerarCurriculoSemestral(List<Aluno> disciplinas){
+        if(disciplinas.size() > 0)
+            this.disciplinas.addAll(disciplinas);
     }
 
-    public void atualizar(String nome, int horas, int creditos, TipoDisciplina tipo){
-        if(nome != null && !nome.isEmpty())
-            this.nome = nome;
-        if(horas > 0)
-            this.setHoras(horas);
-        if(creditos > 0)
-            this.setCreditos(creditos);
-        if(tipo != null)
-            this.tipo = tipo;
-    }
-    
-    public void consultar(){
-        System.out.println(this.toString());
+    public Curso(String nome, int creditoNecessarios) {
+        this.id = criarID();
+        this.nome = nome;
+        this.creditoNecessarios = creditoNecessarios;
+        this.disciplinas = new ArrayList<>();
     }
 
     private static synchronized int criarID() {
@@ -49,7 +38,6 @@ public class Disciplina implements Serializable  {
         return id;
     }
 
-
     public String getNome() {
         return nome;
     }
@@ -58,27 +46,19 @@ public class Disciplina implements Serializable  {
         this.nome = nome;
     }
 
-    public int getHoras() {
-        return horas;
+    public int getCreditoNecessarios() {
+        return creditoNecessarios;
     }
 
-    public void setHoras(int horas) {
-        if(horas > 0)
-            this.horas = horas;
+    public void setCreditoNecessarios(int creditoNecessarios) {
+        if(creditoNecessarios > 0)
+            this.creditoNecessarios = creditoNecessarios;
     }
 
-    public int getCreditos() {
-        return creditos;
+    public List<Aluno> getDisciplinas() {
+        return disciplinas;
     }
 
-    public void setCreditos(int creditos) {
-        if(creditos > 0)
-            this.creditos = creditos;
-    }
-
-    public TipoDisciplina getTipo() {
-        return tipo;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -87,8 +67,8 @@ public class Disciplina implements Serializable  {
         if (obj == null)
             return false;
         try {
-            Disciplina objetoDisciplina = (Disciplina) obj;
-            if (this.id == objetoDisciplina.getId())
+            Curso objetoCurso = (Curso) obj;
+            if (this.id == objetoCurso.getId())
                 return true;
             else
                 return false;
@@ -113,9 +93,8 @@ public class Disciplina implements Serializable  {
         StringBuilder sb = new StringBuilder("Informações do curso:");
         sb.append("ID: " + this.id + "\n");
         sb.append("Nome: " + this.nome + "\n");
-        sb.append("Horas: " + this.horas + "\n");
-        sb.append("Creditos: " + this.creditos + "\n");
-        sb.append("Tipo: " + this.tipo.toString().toLowerCase());
+        sb.append("Creditos Necessarios: " + this.creditoNecessarios);
+        sb.append("Qtde Disciplinas: " + this.disciplinas.size());
         return sb.toString();
     }
 }

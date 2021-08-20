@@ -1,7 +1,7 @@
 package entidades;
 
-import java.io.Serializable;
-
+import java.io.*;
+import java.util.*;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 
 public abstract class Usuario implements Serializable{
@@ -17,10 +17,14 @@ public abstract class Usuario implements Serializable{
         idCounter = 100_000L; // ID's dos Usuários começam com 100.000;
     }
 
+    public static synchronized long criarID() {
+        return idCounter++;
+    }
+
     public Usuario( String email, String senha ){
         this.email = email;
         this.senha = senha;
-        this.id = idCounter++;
+        this.id = criarID();
     }
     
     public void logar() throws NotImplementedException{
@@ -46,4 +50,34 @@ public abstract class Usuario implements Serializable{
     protected void setSenha(String senha) {
         this.senha = senha;
     }
+
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null)
+            return false;
+        try {
+            Usuario objetoUsuario = (Usuario) obj;
+            if (this.id == objetoUsuario.getId())
+                return true;
+            else 
+                return false;
+        } catch (ClassCastException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        Integer id = (int) this.id;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
 }

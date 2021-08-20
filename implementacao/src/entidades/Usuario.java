@@ -17,7 +17,7 @@ public abstract class Usuario implements Serializable{
         idCounter = 100_000L; // ID's dos Usuários começam com 100.000;
     }
 
-    public static synchronized long criarID() {
+    private static synchronized long criarID() {
         return idCounter++;
     }
 

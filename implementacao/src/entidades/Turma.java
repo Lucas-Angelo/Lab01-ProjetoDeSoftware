@@ -158,7 +158,7 @@ public class Turma implements Serializable {
         sb.append("Status: " + this.status.getDescricao());
         sb.append("Nome: this.disciplina.getNome()"); // NECESSÁRIO FAZER O .getNome() da Disciplna
         sb.append("Ano/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
-        sb.append("Professor: this.professor.getNome()");
+        sb.append("Professor: " + this.professor.getNome());
         if(!this.status.equals(TurmaStatus.INATIVA))
             sb.append("Quantidade de alunos: " + this.alunos.size());
         return sb.toString();

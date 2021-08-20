@@ -40,9 +40,6 @@ public abstract class Usuario implements Serializable{
     public long getId() {
         return id;
     }
-    protected void setId(long id) {
-        this.id = id;
-    }
     public String getSenha() {
         return senha;
     }

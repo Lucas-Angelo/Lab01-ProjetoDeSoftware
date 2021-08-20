@@ -29,4 +29,12 @@ public class Professor extends Usuario{
     private void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public String toString() {
+        sb.append("Informações Professor:");
+        sb.append("Nome: " + nome);
+        sb.append(super.toString());
+        return sb.toString();
+    }
 }

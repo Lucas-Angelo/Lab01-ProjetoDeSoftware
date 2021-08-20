@@ -45,4 +45,13 @@ public class Aluno extends Usuario {
     private void setCPF(String CPF) {
         this.CPF = CPF;
     }
+
+    @Override
+    public String toString() {
+        sb.append("Informações Aluno:");
+        sb.append("Nome: " + nome);
+        sb.append("CPF: " + CPF);
+        sb.append(super.toString());
+        return sb.toString();
+    }
 }

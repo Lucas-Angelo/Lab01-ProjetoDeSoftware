@@ -1,8 +1,10 @@
 package entidades;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Curso {
+public class Curso implements Serializable {
     private static final long serialVersionUID = 1L;
     private static int idCounter;
 
@@ -17,25 +19,23 @@ public class Curso {
     }
     
     public void gerarCurriculoSemestral(List<Aluno> disciplinas){
-        this.disciplinas = disciplinas;
+        if(disciplinas.size() > 0)
+            this.disciplinas.addAll(disciplinas);
     }
 
     public Curso(String nome, int creditoNecessarios) {
         this.id = criarID();
         this.nome = nome;
         this.creditoNecessarios = creditoNecessarios;
+        this.disciplinas = new ArrayList<>();
     }
 
-    public static synchronized int criarID() {
+    private static synchronized int criarID() {
         return idCounter++;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -51,16 +51,14 @@ public class Curso {
     }
 
     public void setCreditoNecessarios(int creditoNecessarios) {
-        this.creditoNecessarios = creditoNecessarios;
+        if(creditoNecessarios > 0)
+            this.creditoNecessarios = creditoNecessarios;
     }
 
     public List<Aluno> getDisciplinas() {
         return disciplinas;
     }
 
-    public void setDisciplinas(List<Aluno> disciplinas) {
-        this.disciplinas = disciplinas;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -96,6 +94,7 @@ public class Curso {
         sb.append("ID: " + this.id + "\n");
         sb.append("Nome: " + this.nome + "\n");
         sb.append("Creditos Necessarios: " + this.creditoNecessarios);
+        sb.append("Qtde Disciplinas: " + this.disciplinas.size());
         return sb.toString();
     }
 }

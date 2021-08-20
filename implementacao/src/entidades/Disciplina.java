@@ -2,7 +2,9 @@ package entidades;
 
 import entidades.enums.TipoDisciplina;
 
-public class Disciplina {
+import java.io.Serializable;
+
+public class Disciplina implements Serializable  {
     private static final long serialVersionUID = 1L;
     private static int idCounter;
 
@@ -19,8 +21,8 @@ public class Disciplina {
     public void cadastrar(String nome, int horas, int creditos, TipoDisciplina tipo){
         this.id = criarID();
         this.nome = nome;
-        this.horas = horas;
-        this.creditos = creditos;
+        this.setHoras(horas);
+        this.setCreditos(creditos);
         this.tipo = tipo;
     }
 
@@ -28,9 +30,9 @@ public class Disciplina {
         if(nome != null && !nome.isEmpty())
             this.nome = nome;
         if(horas > 0)
-            this.horas = horas;
+            this.setHoras(horas);
         if(creditos > 0)
-            this.creditos = creditos;
+            this.setCreditos(creditos);
         if(tipo != null)
             this.tipo = tipo;
     }
@@ -39,7 +41,7 @@ public class Disciplina {
         System.out.println(this.toString());
     }
 
-    public static synchronized int criarID() {
+    private static synchronized int criarID() {
         return idCounter++;
     }
 
@@ -47,9 +49,6 @@ public class Disciplina {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -64,7 +63,8 @@ public class Disciplina {
     }
 
     public void setHoras(int horas) {
-        this.horas = horas;
+        if(horas > 0)
+            this.horas = horas;
     }
 
     public int getCreditos() {
@@ -72,15 +72,12 @@ public class Disciplina {
     }
 
     public void setCreditos(int creditos) {
-        this.creditos = creditos;
+        if(creditos > 0)
+            this.creditos = creditos;
     }
 
     public TipoDisciplina getTipo() {
         return tipo;
-    }
-
-    public void setTipo(TipoDisciplina tipo) {
-        this.tipo = tipo;
     }
 
     @Override
@@ -118,9 +115,7 @@ public class Disciplina {
         sb.append("Nome: " + this.nome + "\n");
         sb.append("Horas: " + this.horas + "\n");
         sb.append("Creditos: " + this.creditos + "\n");
-        
-        String tipo = this.tipo.toString().substring(0,1) + this.tipo.toString().substring(1).toLowerCase();
-        sb.append("Creditos: " + tipo);
+        sb.append("Tipo: " + this.tipo.toString().toLowerCase());
         return sb.toString();
     }
 }

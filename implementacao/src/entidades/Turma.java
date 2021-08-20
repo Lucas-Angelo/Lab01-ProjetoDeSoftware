@@ -53,7 +53,7 @@ public class Turma implements Serializable {
     public boolean verificarAlunoMatriculado(Aluno aluno) {
         boolean resultado = false;
         if(aluno != null) {
-            resultado = this.alunos.stream().anyMatch(alunoAtual -> alunoAtual.equals(aluno)); // NECESSÁRIO FAZER O .equals() por id do Usuário
+            resultado = this.alunos.stream().anyMatch(alunoAtual -> alunoAtual.equals(aluno));
         } 
         return resultado;
     }
@@ -158,7 +158,7 @@ public class Turma implements Serializable {
         sb.append("Status: " + this.status.getDescricao());
         sb.append("Nome: " + this.disciplina.getNome());
         sb.append("Ano/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
-        sb.append("Professor: this.professor.getNome()"); // NECESSÁRIO FAZER .getNome() do Professor
+        sb.append("Professor: " + this.professor.getNome());
         if(!this.status.equals(TurmaStatus.INATIVA))
             sb.append("Quantidade de alunos: " + this.alunos.size());
         return sb.toString();

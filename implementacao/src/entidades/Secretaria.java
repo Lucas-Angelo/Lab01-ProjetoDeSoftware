@@ -9,8 +9,8 @@ public class Secretaria extends Usuario{
         this.telefone = telefone;
     }
 
-    public void Consultar(){
-        System.out.println(this);
+    static public Secretaria Cadastrar(String email, String senha, long telefone){
+        return new Secretaria(email, senha, telefone);
     }
     
 }

@@ -30,7 +30,7 @@ public class Turma implements Serializable {
         NUMERO_MIN_OFERTAS = 3; // Mínimo de 3 alunos para ter a disciplina
     }
 
-    public static synchronized long criarID() {
+    private static synchronized long criarID() {
         return idCounter++;
     }
 
@@ -77,22 +77,13 @@ public class Turma implements Serializable {
     public long getId() {
         return this.id;
     }
-    private void setId(long id) {
-        this.id = id;
-    }
 
     public Semestre getSemestre() {
         return this.semestre;
     }
-    private void setSemestre(Semestre semestre) {
-        this.semestre = semestre;
-    }
 
     public int getAno() {
         return this.ano;
-    }
-    private void setAno(int ano) {
-        this.ano = ano;
     }
 
     public TurmaStatus getStatus() {
@@ -105,22 +96,13 @@ public class Turma implements Serializable {
     public List<Aluno> getAlunos() {
         return this.alunos;
     }
-    private void setAlunos(List<Aluno> alunos) {
-        this.alunos = alunos;
-    }
 
     public Professor getProfessor() {
         return this.professor;
     }
-    private void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
 
     public Disciplina getDisciplina() {
         return this.disciplina;
-    }
-    private void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
     }
 
     @Override

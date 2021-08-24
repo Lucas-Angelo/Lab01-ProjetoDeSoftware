@@ -13,20 +13,21 @@ public class Curso implements Serializable {
     private int creditoNecessarios;
 
     private List<Aluno> disciplinas;
+    private Secretaria secretaria;
 
     static {
         idCounter = 0;
     }
 
-    private void init(String nome, int creditoNecessarios) {
+    private void init(Secretaria secretaria, String nome, int creditoNecessarios) {
         this.id = criarID();
         this.nome = nome;
         this.creditoNecessarios = creditoNecessarios;
         this.disciplinas = new ArrayList<>();
     }
 
-    public Curso(String nome, int creditoNecessarios) {
-        init(nome, creditoNecessarios);
+    public Curso(Secretaria secretaria, String nome, int creditoNecessarios) {
+        init(secretaria, nome, creditoNecessarios);
     }
 
     public void gerarCurriculoSemestral(List<Aluno> disciplinas) {
@@ -61,6 +62,10 @@ public class Curso implements Serializable {
 
     public List<Aluno> getDisciplinas() {
         return disciplinas;
+    }
+
+    public Secretaria getSecretaria() {
+        return secretaria;
     }
 
     @Override

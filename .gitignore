@@ -5,3 +5,4 @@ implementacao/src/.idea
 implementacao/src/out
 implementacao/src/implementacao.iml
 implementacao/bin
+*.bin

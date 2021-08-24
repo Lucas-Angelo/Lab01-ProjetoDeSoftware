@@ -30,8 +30,11 @@ public abstract class Usuario implements Serializable {
         init(email, senha);
     }
 
-    public void logar() throws NotImplementedException {
-        throw new NotImplementedException("Metodo nao implmentado");
+    public boolean logar(String email, String senha) {
+        if(email.equals(this.email) && senha.equals(this.senha))
+            return true;
+        else
+            return false;
     }
 
     public void deslogar() throws NotImplementedException {

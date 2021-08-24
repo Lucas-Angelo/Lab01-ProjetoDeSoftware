@@ -1,10 +1,9 @@
 package entidades;
 
 import java.io.*;
-import java.util.*;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 
-public abstract class Usuario implements Serializable{
+public abstract class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static long idCounter;
@@ -21,37 +20,44 @@ public abstract class Usuario implements Serializable{
         return idCounter++;
     }
 
-    public Usuario( String email, String senha ){
+    private void init(String email, String senha) {
         this.email = email;
         this.senha = senha;
         this.id = criarID();
     }
-    
-    public void logar() throws NotImplementedException{
+
+    public Usuario(String email, String senha) {
+        init(email, senha);
+    }
+
+    public void logar() throws NotImplementedException {
         throw new NotImplementedException("Metodo nao implmentado");
     }
 
-    public void deslogar() throws NotImplementedException{
+    public void deslogar() throws NotImplementedException {
         throw new NotImplementedException("Metodo nao implmentado");
     }
 
     public String getEmail() {
         return email;
     }
+
     protected void setEmail(String email) {
         this.email = email;
     }
+
     public long getId() {
         return id;
     }
+
     public String getSenha() {
         return senha;
     }
+
     protected void setSenha(String senha) {
         this.senha = senha;
     }
 
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == this)
@@ -62,7 +68,7 @@ public abstract class Usuario implements Serializable{
             Usuario objetoUsuario = (Usuario) obj;
             if (this.id == objetoUsuario.getId())
                 return true;
-            else 
+            else
                 return false;
         } catch (ClassCastException e) {
             return false;
@@ -73,6 +79,7 @@ public abstract class Usuario implements Serializable{
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append("ID: " + this.id);
         sb.append("Email: " + this.email);
         return sb.toString();

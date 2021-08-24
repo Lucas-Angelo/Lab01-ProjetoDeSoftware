@@ -8,49 +8,56 @@ public class Aluno extends Usuario {
     public static final int MAX_DISCIPLINAS_OPTATIVAS;
 
     private String nome;
-    private String CPF;
-    
+    private String cpf;
+
     static {
         MAX_DISCIPLINAS = 4; // Máximo de 60 alunos por disciplina
         MAX_DISCIPLINAS_OPTATIVAS = 2; // Mínimo de 3 alunos para ter a disciplina
     }
 
-    private Aluno(String email, String senha, String nome, String CPF) {
-        super(email, senha);
+    private void init(String nome, String cpf) {
         this.nome = nome;
-        this.CPF = CPF;
+        this.cpf = cpf;
     }
-    static public Aluno Cadastrar(String email, String senha, String nome, String CPF){
-        return new Aluno(email, senha, nome, CPF);
+
+    public Aluno(String email, String senha, String nome, String cpf) {
+        super(email, senha);
+        init(nome, cpf);
     }
-    public void Atualizar(Optional<String> email, Optional<String> senha, Optional<String> nome, Optional<String> CPF){
-        email.ifPresent( this::setEmail );
-        senha.ifPresent( this::setSenha );
-        nome.ifPresent( this::setNome );
-        CPF.ifPresent( this::setCPF );
+
+    public void atualizar(Optional<String> email, Optional<String> senha, Optional<String> nome, Optional<String> cpf) {
+        email.ifPresent(this::setEmail);
+        senha.ifPresent(this::setSenha);
+        nome.ifPresent(this::setNome);
+        cpf.ifPresent(this::setcpf);
     }
-    public void Consultar(){
+
+    public void consultar() {
         System.out.println(this);
     }
 
     public String getNome() {
         return nome;
     }
+
     private void setNome(String nome) {
         this.nome = nome;
     }
-    public String getCPF() {
-        return CPF;
+
+    public String getcpf() {
+        return cpf;
     }
-    private void setCPF(String CPF) {
-        this.CPF = CPF;
+
+    private void setcpf(String cpf) {
+        this.cpf = cpf;
     }
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append("Informações Aluno:");
         sb.append("Nome: " + nome);
-        sb.append("CPF: " + CPF);
+        sb.append("cpf: " + cpf);
         sb.append(super.toString());
         return sb.toString();
     }

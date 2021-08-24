@@ -4,7 +4,7 @@ import entidades.enums.TipoDisciplina;
 
 import java.io.Serializable;
 
-public class Disciplina implements Serializable  {
+public class Disciplina implements Serializable {
     private static final long serialVersionUID = 1L;
     private static int idCounter;
 
@@ -17,8 +17,8 @@ public class Disciplina implements Serializable  {
     static {
         idCounter = 0;
     }
-    
-    public void cadastrar(String nome, int horas, int creditos, TipoDisciplina tipo){
+
+    private void init(String nome, int horas, int creditos, TipoDisciplina tipo) {
         this.id = criarID();
         this.nome = nome;
         this.setHoras(horas);
@@ -26,18 +26,22 @@ public class Disciplina implements Serializable  {
         this.tipo = tipo;
     }
 
-    public void atualizar(String nome, int horas, int creditos, TipoDisciplina tipo){
-        if(nome != null && !nome.isEmpty())
+    public Disciplina(String nome, int horas, int creditos, TipoDisciplina tipo) {
+        init(nome, horas, creditos, tipo);
+    }
+
+    public void atualizar(String nome, int horas, int creditos, TipoDisciplina tipo) {
+        if (nome != null && !nome.isEmpty())
             this.nome = nome;
-        if(horas > 0)
+        if (horas > 0)
             this.setHoras(horas);
-        if(creditos > 0)
+        if (creditos > 0)
             this.setCreditos(creditos);
-        if(tipo != null)
+        if (tipo != null)
             this.tipo = tipo;
     }
-    
-    public void consultar(){
+
+    public void consultar() {
         System.out.println(this.toString());
     }
 
@@ -48,7 +52,6 @@ public class Disciplina implements Serializable  {
     public int getId() {
         return id;
     }
-
 
     public String getNome() {
         return nome;
@@ -63,7 +66,7 @@ public class Disciplina implements Serializable  {
     }
 
     public void setHoras(int horas) {
-        if(horas > 0)
+        if (horas > 0)
             this.horas = horas;
     }
 
@@ -72,7 +75,7 @@ public class Disciplina implements Serializable  {
     }
 
     public void setCreditos(int creditos) {
-        if(creditos > 0)
+        if (creditos > 0)
             this.creditos = creditos;
     }
 

@@ -1,6 +1,8 @@
 package entidades;
 
 import java.io.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 import entidades.enums.Semestre;
@@ -16,13 +18,14 @@ public class Turma implements Serializable {
 
     private long id;
     private Semestre semestre;
-    private int ano; // Recomendado o uso de: ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).getYear();
+    private int ano; // Recomendado o uso de:
+                     // ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).getYear();
     private TurmaStatus status;
 
     private List<Aluno> alunos;
     private Disciplina disciplina;
     private Professor professor;
-    
+
     static {
         idCounter = 100_000L; // ID's das disciplinas começam com 100.000;
 
@@ -34,16 +37,26 @@ public class Turma implements Serializable {
         return idCounter++;
     }
 
-    public Turma(Semestre semestre, int ano, Disciplina disciplina, Professor professor) {
+    private void init(Semestre semestre, int ano, Disciplina disciplina, Professor professor) {
         this.id = criarID();
 
         this.semestre = semestre;
-        this.ano = ano;
-        this.status = TurmaStatus.MATRICULA_ABERTA; // Sempre que uma Turma é criada quer dizer que as matrículas estão abertas
+        if (ano <= 0) {
+            this.ano = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).getYear();
+            System.err.println("Ano inválido. Turma criada com ano: " + this.ano);
+        } else
+            this.ano = ano;
 
-        this.alunos = new ArrayList<>(60);
+        this.status = TurmaStatus.MATRICULA_ABERTA; // Sempre que uma Turma é criada quer dizer que as matrículas estão
+                                                    // abertas
+
+        this.alunos = new ArrayList<>(NUMERO_MAX_OFERTAS);
         this.disciplina = disciplina;
         this.professor = professor;
+    }
+
+    public Turma(Semestre semestre, int ano, Disciplina disciplina, Professor professor) {
+        init(semestre, ano, disciplina, professor);
     }
 
     public List<Aluno> buscarAlunos() {
@@ -52,23 +65,23 @@ public class Turma implements Serializable {
 
     public boolean verificarAlunoMatriculado(Aluno aluno) {
         boolean resultado = false;
-        if(aluno != null) {
+        if (aluno != null) {
             resultado = this.alunos.stream().anyMatch(alunoAtual -> alunoAtual.equals(aluno));
-        } 
+        }
         return resultado;
     }
 
     public void matricular(Aluno aluno) throws IndexOutOfBoundsException, IllegalArgumentException {
-        if(this.alunos.size()>=60)
+        if (this.alunos.size() >= NUMERO_MAX_OFERTAS)
             throw new IndexOutOfBoundsException("Turma cheia!");
-        if(verificarAlunoMatriculado(aluno))
+        if (verificarAlunoMatriculado(aluno))
             throw new IllegalArgumentException("Este aluno já está nesta turma!");
 
         this.alunos.add(aluno);
     }
 
     public void cancelarMatricula(Aluno aluno) {
-        if(verificarAlunoMatriculado(aluno))
+        if (verificarAlunoMatriculado(aluno))
             throw new IllegalArgumentException("Este aluno não está nesta turma!");
 
         this.alunos.remove(aluno);
@@ -89,6 +102,7 @@ public class Turma implements Serializable {
     public TurmaStatus getStatus() {
         return this.status;
     }
+
     public void setStatus(TurmaStatus status) {
         this.status = status;
     }
@@ -115,7 +129,7 @@ public class Turma implements Serializable {
             Turma objetoTurma = (Turma) obj;
             if (this.id == objetoTurma.getId())
                 return true;
-            else 
+            else
                 return false;
         } catch (ClassCastException e) {
             return false;
@@ -141,7 +155,7 @@ public class Turma implements Serializable {
         sb.append("Nome: " + this.disciplina.getNome());
         sb.append("Ano/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
         sb.append("Professor: " + this.professor.getNome());
-        if(!this.status.equals(TurmaStatus.INATIVA))
+        if (!this.status.equals(TurmaStatus.INATIVA))
             sb.append("Quantidade de alunos: " + this.alunos.size());
         return sb.toString();
     }

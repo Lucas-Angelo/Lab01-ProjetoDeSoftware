@@ -17,17 +17,21 @@ public class Curso implements Serializable {
     static {
         idCounter = 0;
     }
-    
-    public void gerarCurriculoSemestral(List<Aluno> disciplinas){
-        if(disciplinas.size() > 0)
-            this.disciplinas.addAll(disciplinas);
-    }
 
-    public Curso(String nome, int creditoNecessarios) {
+    private void init(String nome, int creditoNecessarios) {
         this.id = criarID();
         this.nome = nome;
         this.creditoNecessarios = creditoNecessarios;
         this.disciplinas = new ArrayList<>();
+    }
+
+    public Curso(String nome, int creditoNecessarios) {
+        init(nome, creditoNecessarios);
+    }
+
+    public void gerarCurriculoSemestral(List<Aluno> disciplinas) {
+        if (disciplinas.size() > 0)
+            this.disciplinas.addAll(disciplinas);
     }
 
     private static synchronized int criarID() {
@@ -51,14 +55,13 @@ public class Curso implements Serializable {
     }
 
     public void setCreditoNecessarios(int creditoNecessarios) {
-        if(creditoNecessarios > 0)
+        if (creditoNecessarios > 0)
             this.creditoNecessarios = creditoNecessarios;
     }
 
     public List<Aluno> getDisciplinas() {
         return disciplinas;
     }
-
 
     @Override
     public boolean equals(Object obj) {

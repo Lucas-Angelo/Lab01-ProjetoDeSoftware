@@ -8,6 +8,7 @@ import serializacao.*;
 public class App {
 
     public static final String arquivoUsuarios = "usuarios.bin";
+    public static final String arquivoCursos = "cursos.bin";
 
     private static List<Usuario> listaUsuarios = new LinkedList<>();
     private static List<Turma> listaTurmas = new LinkedList<>();
@@ -45,7 +46,7 @@ public class App {
                 }
             } catch (ClassCastException e) {
                 System.err.println(
-                        "Erro: Fallha ao fazer o casting dos objetos salvos no arquivo para Usuario, não foi possível carregar os usuários.");
+                        "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Usuario, não foi possível carregar os usuários.");
             }
             leitura.fecharArquivo();
         }
@@ -59,7 +60,38 @@ public class App {
             escrita.escrever(listaUsuarios);
         } catch (ClassCastException e) {
             System.err.println(
-                    "Erro: Fallha ao fazer o casting dos objetos salvos no arquivo para Usuario, não foi possível salvar os usuários.");
+                    "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Usuario, não foi possível salvar os usuários.");
+        }
+        escrita.fecharArquivo();
+    }
+
+    public static List<Curso> carregarCursosDoArquivo(String arquivo) {
+        File f = new File(arquivo);
+        if (f.exists() && !f.isDirectory()) {
+            LeituraSerializada leitura = new LeituraSerializada();
+            leitura.abrirArquivo(arquivo);
+            try {
+                for (Object objeto : leitura.lerArquivo()) {
+                    listaCursos.add((Curso) objeto);
+                }
+            } catch (ClassCastException e) {
+                System.err.println(
+                    "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Curso, não foi possível carregar os cursos.");
+            }
+            leitura.fecharArquivo();
+        }
+
+        return listaCursos;
+    }
+    
+    public static void salvarCursosNoArquivo(String arquivo) {
+        EscritaSerializada<Curso> escrita = new EscritaSerializada<Curso>();
+        escrita.abrirArquivo(arquivo);
+        try {
+            escrita.escrever(listaCursos);
+        } catch (ClassCastException e) {
+            System.err.println(
+                "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Curso, não foi possível salvar os cursos.");
         }
         escrita.fecharArquivo();
     }
@@ -116,11 +148,11 @@ public class App {
         
         Curso curso = criarCurso(teclado, listaDisciplinas);
         listaCursos.add(curso);
+        salvarCursosNoArquivo(arquivoCursos);
         
     }
 
     private static Curso criarCurso(Scanner teclado, List<Disciplina> disciplinas) {
-        Secretaria secretaria = null; // @to-do
         Curso curso = null;
 
         System.out.print("Insira o nome do curso: ");
@@ -130,7 +162,7 @@ public class App {
         int numeroCreditos = teclado.nextInt();
         
         
-        curso = new Curso(secretaria, nome, numeroCreditos);
+        curso = new Curso(nome, numeroCreditos);
         curso.gerarCurriculoSemestral(disciplinas);
         pausa(teclado);
         
@@ -223,6 +255,7 @@ public class App {
 
         /* Caso queria apagar o arquivo e adic */
         listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
+        listaCursos = carregarCursosDoArquivo(arquivoCursos);
         if (listaUsuarios.isEmpty()) {
             listaUsuarios.add(new Secretaria("sec@email.com", "supersenha", 99999999));
             listaUsuarios.add(new Professor("prof@email.com", "supersenha", "Zé"));

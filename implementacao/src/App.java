@@ -11,6 +11,7 @@ public class App {
 
     private static List<Usuario> listaUsuarios = new LinkedList<>();
     private static List<Turma> listaTurmas = new LinkedList<>();
+    private static List<Curso> listaCursos = new LinkedList<>();
 
     // #region Utilidades
     /**
@@ -101,18 +102,61 @@ public class App {
 
     private static void gerarCurriculoSemestral(Scanner teclado) {
         limparTela();
+
+        List<Disciplina> listaDisciplinas = new LinkedList<>();
+
+        String sair = "1";
+        do {
+            Disciplina disciplina = criarDisciplina(teclado);
+            listaDisciplinas.add(disciplina);
+            System.out.println("Digite 1 para cadastrar outra disciplina ou digite 0 para finalizar o cadastro de disciplinas");
+            sair = teclado.nextLine();
+        }while (sair.equals("1"));
+        System.out.println(sair);
         
-        Curso curso = criarCurso(teclado);
-        Disciplina disciplina = criarDisciplina(teclado);
+        Curso curso = criarCurso(teclado, listaDisciplinas);
+        listaCursos.add(curso);
         
     }
 
-    private static Curso criarCurso(Scanner teclado) {
-        return null; // Fazer aqui o cadastro de um Curso... perguntando os dados etc...
+    private static Curso criarCurso(Scanner teclado, List<Disciplina> disciplinas) {
+        Secretaria secretaria = null; // @to-do
+        Curso curso = null;
+
+        System.out.print("Insira o nome do curso: ");
+        String nome = teclado.nextLine();
+
+        System.out.print("Insira o numero de creditos necessarios: ");
+        int numeroCreditos = teclado.nextInt();
+        
+        
+        curso = new Curso(secretaria, nome, numeroCreditos);
+        curso.gerarCurriculoSemestral(disciplinas);
+        pausa(teclado);
+        
+        return curso; // Fazer aqui o cadastro de um Curso... perguntando os dados etc...
     }
 
     private static Disciplina criarDisciplina(Scanner teclado) {
-        return null; // Fazer aqui o cadastro de uma Disciplina... perguntando os dados etc...
+        Disciplina disciplina = null;
+        
+        System.out.println("Insira o nome da disciplina: ");
+        String nome = teclado.nextLine();
+        System.out.println("Insira o valor cargo-horario da disciplina: ");
+        int horas = Integer.parseInt(teclado.nextLine());
+        System.out.println("Insira o valor dos creditos da disciplina: ");
+        int creditos = Integer.parseInt(teclado.nextLine());
+        System.out.println("A disciplina é: \n1-Obrigatoria\n2-Optativa");
+        String opcao = teclado.nextLine();
+        TipoDisciplina td = null;
+        if(opcao == "1")
+            td = TipoDisciplina.OBRIGATORIA;
+        else if(opcao == "2")
+            td = TipoDisciplina.OPTATIVA;
+        
+        disciplina = new Disciplina(nome, horas, creditos, td);
+        
+        return disciplina;
     }
 
     private static int menuCRUDUsuario(Scanner teclado) {

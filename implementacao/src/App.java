@@ -9,10 +9,13 @@ public class App {
 
     public static final String arquivoUsuarios = "usuarios.bin";
     public static final String arquivoCursos = "cursos.bin";
+    public static final String arquivoDisciplinas = "disciplinas.bin";
+    public static final String arquivoTurma = "turma.bin";
 
     private static List<Usuario> listaUsuarios = new LinkedList<>();
     private static List<Turma> listaTurmas = new LinkedList<>();
     private static List<Curso> listaCursos = new LinkedList<>();
+    private static List<Disciplina> listaDisciplinas = new LinkedList<>();
 
     // #region Utilidades
     /**
@@ -83,7 +86,6 @@ public class App {
 
         return listaCursos;
     }
-    
     public static void salvarCursosNoArquivo(String arquivo) {
         EscritaSerializada<Curso> escrita = new EscritaSerializada<Curso>();
         escrita.abrirArquivo(arquivo);
@@ -92,6 +94,66 @@ public class App {
         } catch (ClassCastException e) {
             System.err.println(
                 "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Curso, não foi possível salvar os cursos.");
+        }
+        escrita.fecharArquivo();
+    }
+
+    public static List<Disciplina> carregarDisciplinasDoArquivo(String arquivo) {
+        File f = new File(arquivo);
+        if (f.exists() && !f.isDirectory()) {
+            LeituraSerializada leitura = new LeituraSerializada();
+            leitura.abrirArquivo(arquivo);
+            try {
+                for (Object objeto : leitura.lerArquivo()) {
+                    listaDisciplinas.add((Disciplina) objeto);
+                }
+            } catch (ClassCastException e) {
+                System.err.println(
+                    "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Disciplina, não foi possível salvar as disciplinas.");
+            }
+            leitura.fecharArquivo();
+        }
+
+        return listaDisciplinas;
+    }
+    public static void salvarDisciplinasNoArquivo(String arquivo) {
+        EscritaSerializada<Disciplina> escrita = new EscritaSerializada<Disciplina>();
+        escrita.abrirArquivo(arquivo);
+        try {
+            escrita.escrever(listaDisciplinas);
+        } catch (ClassCastException e) {
+            System.err.println(
+                "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Disciplina, não foi possível salvar as disciplinas.");
+        }
+        escrita.fecharArquivo();
+    }
+
+    public static List<Turma> carregarTurmaDoArquivo(String arquivo) {
+        File f = new File(arquivo);
+        if (f.exists() && !f.isDirectory()) {
+            LeituraSerializada leitura = new LeituraSerializada();
+            leitura.abrirArquivo(arquivo);
+            try {
+                for (Object objeto : leitura.lerArquivo()) {
+                    listaTurmas.add((Turma) objeto);
+                }
+            } catch (ClassCastException e) {
+                System.err.println(
+                    "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Turma, não foi possível carregar as turmas.");
+            }
+            leitura.fecharArquivo();
+        }
+
+        return listaTurmas;
+    }
+    public static void salvarTurmaNoArquivo(String arquivo) {
+        EscritaSerializada<Turma> escrita = new EscritaSerializada<Turma>();
+        escrita.abrirArquivo(arquivo);
+        try {
+            escrita.escrever(listaTurmas);
+        } catch (ClassCastException e) {
+            System.err.println(
+                "Erro: Falha ao fazer o casting dos objetos salvos no arquivo para Turma, não foi possível salvar as turmas.");
         }
         escrita.fecharArquivo();
     }
@@ -124,6 +186,7 @@ public class App {
         System.out.println("==========================");
         System.out.println("1 - Gerar currículo semestral para curso");
         System.out.println("2 - CRUD usuário");
+        System.out.println("3 - Criar Turma");
         System.out.println("0 - Salvar e sair");
         System.out.print("Digite sua opção: ");
 
@@ -135,24 +198,25 @@ public class App {
     private static void gerarCurriculoSemestral(Scanner teclado) {
         limparTela();
 
-        List<Disciplina> listaDisciplinas = new LinkedList<>();
-
-        String sair = "1";
-        do {
-            Disciplina disciplina = criarDisciplina(teclado);
-            listaDisciplinas.add(disciplina);
-            System.out.println("Digite 1 para cadastrar outra disciplina ou digite 0 para finalizar o cadastro de disciplinas");
-            sair = teclado.nextLine();
-        }while (sair.equals("1"));
-        System.out.println(sair);
+        System.out.print("Deseja adicionar uma disciplina: (S/N): ");
+        if(teclado.nextLine().equals("S")) {
+            String sair = "1";
+            do {
+                Disciplina disciplina = criarDisciplina(teclado);
+                listaDisciplinas.add(disciplina);
+                System.out.println("Digite 1 para cadastrar outra disciplina ou digite 0 para finalizar o cadastro de disciplinas");
+                sair = teclado.nextLine();
+            }while (sair.equals("1"));
+        }
+        salvarDisciplinasNoArquivo(arquivoDisciplinas);
         
-        Curso curso = criarCurso(teclado, listaDisciplinas);
+        Curso curso = criarCurso(teclado);
         listaCursos.add(curso);
         salvarCursosNoArquivo(arquivoCursos);
         
     }
 
-    private static Curso criarCurso(Scanner teclado, List<Disciplina> disciplinas) {
+    private static Curso criarCurso(Scanner teclado) {
         Curso curso = null;
 
         System.out.print("Insira o nome do curso: ");
@@ -161,9 +225,26 @@ public class App {
         System.out.print("Insira o numero de creditos necessarios: ");
         int numeroCreditos = teclado.nextInt();
         
-        
         curso = new Curso(nome, numeroCreditos);
-        curso.gerarCurriculoSemestral(disciplinas);
+
+        List<Disciplina> ld = new LinkedList<>();
+        System.out.println("Inclusao de disciplinas, digite o numero da disciplina para incluir");
+
+        String sair = "S";
+        do {
+            for (int i = 0; i < listaDisciplinas.size(); i++)
+                System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
+
+            pausa(teclado);
+            System.out.print("Numero da Disciplina: ");
+            int num = Integer.parseInt(teclado.nextLine());
+            ld.add(listaDisciplinas.get(num - 1));
+            System.out.println("Deseja incluir outra disciplina ? (S/N): ");
+            sair = teclado.nextLine();
+        } while (sair.equals("S"));
+        
+        curso.gerarCurriculoSemestral(ld);
+        System.out.println("Curso criado");
         pausa(teclado);
         
         return curso; // Fazer aqui o cadastro de um Curso... perguntando os dados etc...
@@ -191,6 +272,35 @@ public class App {
         return disciplina;
     }
 
+    private static void criarTurma(Scanner teclado){
+        Turma t = null;
+        System.out.println("Insira o ano de inicio da turma: ");
+        int ano = Integer.parseInt(teclado.nextLine());
+        System.out.println("Defina o periodo de inicio da turma: \n1 - 1ª Semestre\n2 - 2º Semestre\nOpcao: ");
+        int semestre = Integer.parseInt(teclado.nextLine());
+        Semestre s = null;
+        if(semestre == 1)
+            s = Semestre.PRIMEIRO;
+        else if(semestre == 2)
+            s = Semestre.SEGUNDO;
+
+        System.out.println("Defina a disciplina da turma");
+        for (int i = 0; i < listaDisciplinas.size(); i++)
+            System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
+
+        pausa(teclado);
+        System.out.print("Numero da Disciplina: ");
+        int num = Integer.parseInt(teclado.nextLine());
+
+        // TODO: 8/27/2021  Substituir futuramente pelo professor mesmo
+        Professor p = null;
+        
+        t = new Turma(s, ano, listaDisciplinas.get(num - 1) , p);
+        listaTurmas.add(t);
+        salvarTurmaNoArquivo(arquivoTurma);
+        
+    }
+    
     private static int menuCRUDUsuario(Scanner teclado) {
         limparTela();
         
@@ -256,6 +366,8 @@ public class App {
         /* Caso queria apagar o arquivo e adic */
         listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
         listaCursos = carregarCursosDoArquivo(arquivoCursos);
+        listaDisciplinas = carregarDisciplinasDoArquivo(arquivoDisciplinas);
+        listaTurmas = carregarTurmaDoArquivo(arquivoTurma);
         if (listaUsuarios.isEmpty()) {
             listaUsuarios.add(new Secretaria("sec@email.com", "supersenha", 99999999));
             listaUsuarios.add(new Professor("prof@email.com", "supersenha", "Zé"));
@@ -292,7 +404,8 @@ public class App {
                         default:
                             break;
                     }
-                }
+                } else if (opcao == 3)
+                    criarTurma(teclado);
 
             } while (opcao!=0);
             

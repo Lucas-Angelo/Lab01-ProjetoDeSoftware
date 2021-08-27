@@ -31,14 +31,14 @@ public class Disciplina implements Serializable {
     }
 
     public void atualizar(String nome, int horas, int creditos, TipoDisciplina tipo) {
-        if (nome != null && !nome.isEmpty())
-            this.nome = nome;
-        if (horas > 0)
-            this.setHoras(horas);
-        if (creditos > 0)
-            this.setCreditos(creditos);
+        this.setNome(nome);
+        this.setHoras(horas);
+        this.setCreditos(creditos);
+        
         if (tipo != null)
             this.tipo = tipo;
+        else
+            System.err.println("Tipo deve ser opcional ou obrigatorio");
     }
 
     public void consultar() {
@@ -58,7 +58,10 @@ public class Disciplina implements Serializable {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if (nome != null && !nome.isEmpty())
+            this.nome = nome;
+        else 
+            System.err.println("Nome invalido");
     }
 
     public int getHoras() {
@@ -68,6 +71,8 @@ public class Disciplina implements Serializable {
     public void setHoras(int horas) {
         if (horas > 0)
             this.horas = horas;
+        else
+            System.err.println("Numero de horas invalido");
     }
 
     public int getCreditos() {
@@ -77,6 +82,9 @@ public class Disciplina implements Serializable {
     public void setCreditos(int creditos) {
         if (creditos > 0)
             this.creditos = creditos;
+        else
+            System.err.println("Valor de creditos invalido");
+        
     }
 
     public TipoDisciplina getTipo() {

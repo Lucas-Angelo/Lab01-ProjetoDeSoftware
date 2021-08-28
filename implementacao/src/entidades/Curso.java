@@ -34,6 +34,11 @@ public class Curso implements Serializable {
             this.disciplinas.addAll(disciplinas);
     }
 
+    public void addDisciplina(Disciplina disciplina) {
+        if (disciplina != null)
+            this.disciplinas.add(disciplina);
+    }
+
     private static synchronized int criarID() {
         return idCounter++;
     }

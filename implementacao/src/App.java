@@ -159,10 +159,12 @@ public class App {
     }
 
     public static Usuario login(Scanner teclado, List<Usuario> usuarios) {
-        System.out.print("Insira seu email: ");
+        /*System.out.print("Insira seu email: ");
         String email = teclado.nextLine();
         System.out.print("Insira sua senha: ");
-        String senha = teclado.nextLine();
+        String senha = teclado.nextLine();*/
+        String email = "sec@email.com";
+        String senha = "supersenha";
 
         for (Usuario usuarioUnico : usuarios) {
             if (usuarioUnico.logar(email, senha))
@@ -187,6 +189,7 @@ public class App {
         System.out.println("1 - Gerar currículo semestral para curso");
         System.out.println("2 - CRUD usuário");
         System.out.println("3 - Criar Turma");
+        System.out.println("4 - Adicionar nova disciplina a um curso");
         System.out.println("0 - Salvar e sair");
         System.out.print("Digite sua opção: ");
 
@@ -197,11 +200,11 @@ public class App {
 
     private static void gerarCurriculoSemestral(Scanner teclado) {
         limparTela();
-
         System.out.print("Deseja adicionar uma disciplina: (S/N): ");
         if(teclado.nextLine().equals("S")) {
             String sair;
             do {
+                limparTela();
                 Disciplina disciplina = criarDisciplina(teclado);
                 listaDisciplinas.add(disciplina);
                 System.out.println("Digite 1 para cadastrar outra disciplina ou digite 0 para finalizar o cadastro de disciplinas");
@@ -241,6 +244,7 @@ public class App {
             ld.add(listaDisciplinas.get(num - 1));
             System.out.println("Deseja incluir outra disciplina ? (S/N): ");
             sair = teclado.nextLine();
+            limparTela();
         } while (sair.equals("S"));
         
         curso.gerarCurriculoSemestral(ld);
@@ -301,6 +305,39 @@ public class App {
         
     }
     
+    private  static void adicionarDisciplinaCurso(Scanner teclado) {
+        System.out.println("Selecione o Curso: ");
+        for (int i = 0; i < listaCursos.size(); i++)
+            System.out.println((i + 1) + " " + listaCursos.get(i).getNome());
+        
+        int cursoNum = Integer.parseInt(teclado.nextLine());
+
+        System.out.println("Selecione a disciplina a adicionar ao curso: ");
+        List<Disciplina> ld = new LinkedList<>();
+
+        String sair;
+        do {
+            for (int i = 0; i < listaDisciplinas.size(); i++)
+                System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
+
+            pausa(teclado);
+            System.out.print("Numero da Disciplina: ");
+            int num = Integer.parseInt(teclado.nextLine());
+            ld.add(listaDisciplinas.get(num - 1));
+            System.out.println("Deseja incluir outra disciplina ? (S/N): ");
+            sair = teclado.nextLine();
+            limparTela();
+        } while (sair.equals("S"));
+        
+        Curso curso = listaCursos.get(cursoNum-1);
+        for (Disciplina d: ld) { // Adicionando novas disciplinas
+            curso.addDisciplina(d);   
+        }
+        System.out.println("Disciplinas adicionadas");
+        salvarCursosNoArquivo(arquivoCursos);
+        pausa(teclado);
+    }
+    
     private static int menuCRUDUsuario(Scanner teclado) {
         limparTela();
         
@@ -316,6 +353,7 @@ public class App {
         teclado.nextLine();
         return opcao;
     }
+    
     private static void criarUsuario(Scanner teclado) {
         limparTela();
 
@@ -449,6 +487,8 @@ public class App {
                     }
                 } else if (opcao == 3)
                     criarTurma(teclado);
+                else if (opcao == 4)
+                    adicionarDisciplinaCurso(teclado);
 
             } while (opcao!=0);
             

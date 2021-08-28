@@ -56,8 +56,8 @@ public class Aluno extends Usuario {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Informações Aluno:");
-        sb.append("Nome: " + nome);
-        sb.append("cpf: " + cpf);
+        sb.append("\nNome: " + nome);
+        sb.append("\nCPF: " + cpf);
         sb.append(super.toString());
         return sb.toString();
     }

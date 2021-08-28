@@ -83,8 +83,8 @@ public abstract class Usuario implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("ID: " + this.id);
-        sb.append("Email: " + this.email);
+        sb.append("\nID: " + this.id);
+        sb.append("\nEmail: " + this.email);
         return sb.toString();
     }
 

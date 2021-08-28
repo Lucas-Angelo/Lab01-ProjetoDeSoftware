@@ -200,7 +200,7 @@ public class App {
 
         System.out.print("Deseja adicionar uma disciplina: (S/N): ");
         if(teclado.nextLine().equals("S")) {
-            String sair = "1";
+            String sair;
             do {
                 Disciplina disciplina = criarDisciplina(teclado);
                 listaDisciplinas.add(disciplina);
@@ -217,7 +217,7 @@ public class App {
     }
 
     private static Curso criarCurso(Scanner teclado) {
-        Curso curso = null;
+        Curso curso;
 
         System.out.print("Insira o nome do curso: ");
         String nome = teclado.nextLine();
@@ -230,7 +230,7 @@ public class App {
         List<Disciplina> ld = new LinkedList<>();
         System.out.println("Inclusao de disciplinas, digite o numero da disciplina para incluir");
 
-        String sair = "S";
+        String sair;
         do {
             for (int i = 0; i < listaDisciplinas.size(); i++)
                 System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
@@ -251,7 +251,7 @@ public class App {
     }
 
     private static Disciplina criarDisciplina(Scanner teclado) {
-        Disciplina disciplina = null;
+        Disciplina disciplina;
         
         System.out.println("Insira o nome da disciplina: ");
         String nome = teclado.nextLine();
@@ -262,9 +262,9 @@ public class App {
         System.out.println("A disciplina é: \n1-Obrigatoria\n2-Optativa");
         String opcao = teclado.nextLine();
         TipoDisciplina td = null;
-        if(opcao == "1")
+        if(opcao.equals("1"))
             td = TipoDisciplina.OBRIGATORIA;
-        else if(opcao == "2")
+        else if(opcao.equals("2"))
             td = TipoDisciplina.OPTATIVA;
         
         disciplina = new Disciplina(nome, horas, creditos, td);
@@ -273,7 +273,7 @@ public class App {
     }
 
     private static void criarTurma(Scanner teclado){
-        Turma t = null;
+        Turma t;
         System.out.println("Insira o ano de inicio da turma: ");
         int ano = Integer.parseInt(teclado.nextLine());
         System.out.println("Defina o periodo de inicio da turma: \n1 - 1ª Semestre\n2 - 2º Semestre\nOpcao: ");
@@ -358,6 +358,49 @@ public class App {
     }
 
     // #endregion
+    
+    private static void matricularAluno(Scanner teclado, Aluno a){
+        int nMatriculaObrigatoria = 0; 
+        int nMatriculaOptativa = 0;
+        int maxObrigatoria = 4;
+        int maxOptativa = 2;
+
+        List<Turma> turmasEntrar = new LinkedList<>(); // Armazenar a lista das turmas que o aluno quer entrar
+        
+        String maisUm;
+        do {
+            for (int i = 0; i < listaTurmas.size(); i++) {
+                if (!turmasEntrar.contains(listaTurmas.get(i))) { // Verificar se já entrou na turma, caso já nem aparece
+                    Disciplina dTurma = listaTurmas.get(i).getDisciplina();
+                    if (dTurma.getTipo() == TipoDisciplina.OBRIGATORIA && nMatriculaObrigatoria <= maxObrigatoria) // Imprimir caso n tenha chegado ao num max de materias obrigatorias
+                        System.out.print((i + 1) + " - Turma " + (i + 1) + " " + dTurma.getNome() + " - Obrigatoria\n");
+                    
+                    if (dTurma.getTipo() == TipoDisciplina.OPTATIVA && nMatriculaOptativa <= maxOptativa) // Imprimir caso n tenha chegado ao num max de materias optativas
+                        System.out.print((i + 1) + " - Turma " + (i + 1) + " " + dTurma.getNome() + " - Optativa\n");
+                }
+            }
+            System.out.println("Digite a turma que deseja entrar: ");
+            int opcao = Integer.parseInt(teclado.nextLine());
+            turmasEntrar.add(listaTurmas.get(opcao - 1));
+            if(listaTurmas.get(opcao - 1).getDisciplina().getTipo() == TipoDisciplina.OBRIGATORIA)
+                nMatriculaObrigatoria++;
+            else
+                nMatriculaOptativa++;
+            
+            if(!(nMatriculaObrigatoria >= maxObrigatoria && nMatriculaOptativa >= maxOptativa)) {
+                System.out.println("Matricular em mais uma turma? (S/N):  ");
+                maisUm = teclado.nextLine();
+            } else
+                maisUm = "N";
+        }while (maisUm.equals("S"));
+
+        for (Turma t: turmasEntrar) { // Matricular o aluno nas turmas
+            t.matricular(a);
+        }
+
+        System.out.println("Aluno matriculado!");
+        
+    }
 
     public static void main(String[] args) throws Exception {
         limparTela();
@@ -412,7 +455,7 @@ public class App {
         } else if (logado.getClass().equals(Professor.class)) {
             // Pesquisar por diciplina para ver alunos
         } else if (logado.getClass().equals(Aluno.class)) {
-            // Matricular em uma disciplina (turma) validando matéria obrigatória e optativa
+            matricularAluno(teclado, (Aluno) logado);
         }
     }
 }

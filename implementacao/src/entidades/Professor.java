@@ -36,7 +36,8 @@ public class Professor extends Usuario {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Informações Professor:");
+        sb.append("\n----------------------");
+        sb.append("\nInformações Professor:");
         sb.append("\nNome: " + nome);
         sb.append(super.toString());
         return sb.toString();

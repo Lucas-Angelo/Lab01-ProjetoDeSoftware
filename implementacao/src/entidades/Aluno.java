@@ -55,7 +55,8 @@ public class Aluno extends Usuario {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Informações Aluno:");
+        sb.append("\n----------------------");
+        sb.append("\nInformações Aluno:");
         sb.append("\nNome: " + nome);
         sb.append("\nCPF: " + cpf);
         sb.append(super.toString());

@@ -226,7 +226,7 @@ public class App {
     }
     private static void atualizarUsuario(Scanner teclado) {
         verUsuarios( u -> !u.getClass().equals(Secretaria.class) );
-        System.out.println("Digite o ID do aluno que deseja atualizar os dados");
+        System.out.println("Digite o ID do usuário que deseja atualizar os dados");
         int usuarioId = teclado.nextInt();
         teclado.nextLine();
 
@@ -359,6 +359,7 @@ public class App {
                                 break;
                             case 2:
                                 verUsuarios();
+                                pausa(teclado);
                                 break;
                             case 3:
                                 atualizarUsuario(teclado);

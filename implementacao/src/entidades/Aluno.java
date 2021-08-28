@@ -11,8 +11,8 @@ public class Aluno extends Usuario {
     private String cpf;
 
     static {
-        MAX_DISCIPLINAS = 4; // Máximo de 60 alunos por disciplina
-        MAX_DISCIPLINAS_OPTATIVAS = 2; // Mínimo de 3 alunos para ter a disciplina
+        MAX_DISCIPLINAS = 4; // Máximo de 4 disciplinas obrigatórias matriculadas por semestre
+        MAX_DISCIPLINAS_OPTATIVAS = 2; // Máximo de 2 disciplinas optativas matriculadas por semestre
     }
 
     private void init(String nome, String cpf) {
@@ -55,9 +55,10 @@ public class Aluno extends Usuario {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Informações Aluno:");
-        sb.append("Nome: " + nome);
-        sb.append("cpf: " + cpf);
+        sb.append("\n----------------------");
+        sb.append("\nInformações Aluno:");
+        sb.append("\nNome: " + nome);
+        sb.append("\nCPF: " + cpf);
         sb.append(super.toString());
         return sb.toString();
     }

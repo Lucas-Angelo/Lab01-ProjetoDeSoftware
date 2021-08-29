@@ -42,6 +42,7 @@ public class App {
     }
 
     public static List<Usuario> carregarUsuariosDoArquivo(String arquivo) {
+        List<Usuario> listaUsuarios = new LinkedList<>();
         File f = new File(arquivo);
         if (f.exists() && !f.isDirectory()) {
             LeituraSerializada leitura = new LeituraSerializada();
@@ -221,6 +222,7 @@ public class App {
     }
 
     private static Curso criarCurso(Scanner teclado) {
+        limparTela();
         Curso curso;
 
         System.out.print("Insira o nome do curso: ");
@@ -236,16 +238,15 @@ public class App {
 
         String sair;
         do {
+            limparTela();
             for (int i = 0; i < listaDisciplinas.size(); i++)
                 System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
 
-            pausa(teclado);
             System.out.print("Numero da Disciplina: ");
             int num = Integer.parseInt(teclado.nextLine());
             ld.add(listaDisciplinas.get(num - 1));
             System.out.println("Deseja incluir outra disciplina ? (S/N): ");
             sair = teclado.nextLine();
-            limparTela();
         } while (sair.equals("S"));
         
         curso.gerarCurriculoSemestral(ld);
@@ -438,9 +439,6 @@ public class App {
         // printa todos usuários da stream
         usuariosStream.forEach(System.out::println);
     }
-    private static void verTurmas(){
-        verTurmas( null );
-    }
     private static void verTurmas( Predicate<Turma> filtro ) {
         limparTela();
         Stream<Turma> turmasStream =  listaTurmas.stream() ;
@@ -601,17 +599,20 @@ public class App {
         Scanner teclado = new Scanner(System.in);
 
         /* Caso queria apagar o arquivo e adic */
-        listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
-        listaCursos = carregarCursosDoArquivo(arquivoCursos);
-        listaDisciplinas = carregarDisciplinasDoArquivo(arquivoDisciplinas);
-        listaTurmas = carregarTurmaDoArquivo(arquivoTurma);
-        if (listaUsuarios.isEmpty()) {
+        if (carregarUsuariosDoArquivo(arquivoUsuarios).isEmpty()) {
             listaUsuarios.add(new Secretaria("sec@email.com", "supersenha", 99999999));
             listaUsuarios.add(new Professor("prof@email.com", "supersenha", "Zé"));
             listaUsuarios.add(new Aluno("alu@email.com", "supersenha", "Tom", "111.111.111-11"));
+            salvarUsuariosNoArquivo(arquivoUsuarios);
+            listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
+        } else {
+            listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
         }
-        salvarUsuariosNoArquivo(arquivoUsuarios);
-        listaUsuarios = carregarUsuariosDoArquivo(arquivoUsuarios);
+
+        listaCursos = carregarCursosDoArquivo(arquivoCursos);
+        listaDisciplinas = carregarDisciplinasDoArquivo(arquivoDisciplinas);
+        listaTurmas = carregarTurmaDoArquivo(arquivoTurma);
+
 
         logado = login(teclado, listaUsuarios);
         if (logado == null)

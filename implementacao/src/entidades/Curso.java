@@ -12,27 +12,31 @@ public class Curso implements Serializable {
     private String nome;
     private int creditoNecessarios;
 
-    private List<Aluno> disciplinas;
-    private Secretaria secretaria;
+    private List<Disciplina> disciplinas;
 
     static {
         idCounter = 0;
     }
 
-    private void init(Secretaria secretaria, String nome, int creditoNecessarios) {
+    private void init(String nome, int creditoNecessarios) {
         this.id = criarID();
-        this.nome = nome;
-        this.creditoNecessarios = creditoNecessarios;
+        this.setNome(nome);
+        this.setCreditoNecessarios(creditoNecessarios);
         this.disciplinas = new ArrayList<>();
     }
 
-    public Curso(Secretaria secretaria, String nome, int creditoNecessarios) {
-        init(secretaria, nome, creditoNecessarios);
+    public Curso(String nome, int creditoNecessarios) {
+        init(nome, creditoNecessarios);
     }
 
-    public void gerarCurriculoSemestral(List<Aluno> disciplinas) {
+    public void gerarCurriculoSemestral(List<Disciplina> disciplinas) {
         if (disciplinas.size() > 0)
             this.disciplinas.addAll(disciplinas);
+    }
+
+    public void addDisciplina(Disciplina disciplina) {
+        if (disciplina != null)
+            this.disciplinas.add(disciplina);
     }
 
     private static synchronized int criarID() {
@@ -58,14 +62,12 @@ public class Curso implements Serializable {
     public void setCreditoNecessarios(int creditoNecessarios) {
         if (creditoNecessarios > 0)
             this.creditoNecessarios = creditoNecessarios;
+        else
+            System.err.println("Numero de creditos invalido invalido");
     }
 
-    public List<Aluno> getDisciplinas() {
+    public List<Disciplina> getDisciplinas() {
         return disciplinas;
-    }
-
-    public Secretaria getSecretaria() {
-        return secretaria;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class Curso implements Serializable {
         StringBuilder sb = new StringBuilder("Informações do curso:");
         sb.append("ID: " + this.id + "\n");
         sb.append("Nome: " + this.nome + "\n");
-        sb.append("Creditos Necessarios: " + this.creditoNecessarios);
+        sb.append("Creditos Necessarios: " + this.creditoNecessarios + "\n");
         sb.append("Qtde Disciplinas: " + this.disciplinas.size());
         return sb.toString();
     }

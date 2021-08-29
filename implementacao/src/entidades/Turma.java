@@ -151,10 +151,10 @@ public class Turma implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("Informações da turma:");
         sb.append("ID: " + this.id);
-        sb.append("Status: " + this.status.getDescricao());
-        sb.append("Nome: " + this.disciplina.getNome());
-        sb.append("Ano/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
-        sb.append("Professor: " + this.professor.getNome());
+        sb.append("\nStatus: " + this.status.getDescricao());
+        sb.append("\nNome: " + this.disciplina.getNome());
+        sb.append("\nAno/Semestre: " + this.semestre.getNumerico() + "/" + this.ano);
+        sb.append("\nProfessor: " + this.professor.getNome());
         if (!this.status.equals(TurmaStatus.INATIVA))
             sb.append("Quantidade de alunos: " + this.alunos.size());
         return sb.toString();

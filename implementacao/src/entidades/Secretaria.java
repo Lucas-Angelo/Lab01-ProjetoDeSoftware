@@ -16,8 +16,9 @@ public class Secretaria extends Usuario {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Informações Secretaria:");
-        sb.append("Telefone: " + telefone);
+        sb.append("\n----------------------");
+        sb.append("\nInformações Secretaria:");
+        sb.append("\nTelefone: " + telefone);
         sb.append(super.toString());
         return sb.toString();
     }

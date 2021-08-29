@@ -297,8 +297,15 @@ public class App {
         System.out.print("Numero da Disciplina: ");
         int num = Integer.parseInt(teclado.nextLine());
 
-        // TODO: 8/27/2021  Substituir futuramente pelo professor mesmo
-        Professor p = null;
+        System.out.println("Selecione o professor: ");
+        for (int i = 0; i<listaUsuarios.size();i++){
+            Usuario u = listaUsuarios.get(i);
+            if(u.getClass().equals(Professor.class))
+                System.out.println( (i+1) + " Professor: " + ((Professor) u).getNome());
+        }
+        System.out.print("Opcao: ");
+        int result = Integer.parseInt(teclado.nextLine());
+        Professor p = (Professor) listaUsuarios.get(result - 1);
         
         t = new Turma(s, ano, listaDisciplinas.get(num - 1) , p);
         listaTurmas.add(t);
@@ -582,6 +589,8 @@ public class App {
         for (Turma t: turmasEntrar) { // Matricular o aluno nas turmas
             t.matricular(a);
         }
+        
+        salvarTurmaNoArquivo(arquivoTurma);
 
         System.out.println("Aluno matriculado!");
         

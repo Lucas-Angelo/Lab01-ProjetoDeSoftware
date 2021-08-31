@@ -1,4 +1,4 @@
-package entidades.enums;
+package entidades.matricula.enums;
 
 public enum Semestre {
     PRIMEIRO("Primeiro", 1),

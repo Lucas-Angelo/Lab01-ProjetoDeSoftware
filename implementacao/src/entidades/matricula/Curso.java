@@ -1,4 +1,4 @@
-package entidades;
+package entidades.matricula;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package entidades;
+package entidades.usuarios;
 
 import java.io.*;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;

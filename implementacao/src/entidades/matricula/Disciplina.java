@@ -1,8 +1,8 @@
-package entidades;
-
-import entidades.enums.TipoDisciplina;
+package entidades.matricula;
 
 import java.io.Serializable;
+
+import entidades.matricula.enums.TipoDisciplina;
 
 public class Disciplina implements Serializable {
     private static final long serialVersionUID = 1L;

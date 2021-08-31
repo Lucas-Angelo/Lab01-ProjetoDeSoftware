@@ -1,4 +1,4 @@
-package entidades;
+package entidades.usuarios;
 
 public class Secretaria extends Usuario {
 

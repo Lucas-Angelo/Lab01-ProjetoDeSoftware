@@ -3,16 +3,22 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import entidades.*;
-import entidades.enums.*;
+import entidades.matricula.Curso;
+import entidades.matricula.Disciplina;
+import entidades.matricula.Turma;
+import entidades.matricula.enums.*;
+import entidades.usuarios.Aluno;
+import entidades.usuarios.Professor;
+import entidades.usuarios.Secretaria;
+import entidades.usuarios.Usuario;
 import serializacao.*;
 
 public class App {
 
-    public static final String arquivoUsuarios = "usuarios.bin";
-    public static final String arquivoCursos = "cursos.bin";
-    public static final String arquivoDisciplinas = "disciplinas.bin";
-    public static final String arquivoTurma = "turma.bin";
+    private static final String arquivoUsuarios = "usuarios.bin";
+    private static final String arquivoCursos = "cursos.bin";
+    private static final String arquivoDisciplinas = "disciplinas.bin";
+    private static final String arquivoTurma = "turma.bin";
 
     private static List<Usuario> listaUsuarios = new LinkedList<>();
     private static List<Turma> listaTurmas = new LinkedList<>();
@@ -41,7 +47,7 @@ public class App {
         }
     }
 
-    public static List<Usuario> carregarUsuariosDoArquivo(String arquivo) {
+    private static List<Usuario> carregarUsuariosDoArquivo(String arquivo) {
         List<Usuario> listaUsuarios = new LinkedList<>();
         File f = new File(arquivo);
         if (f.exists() && !f.isDirectory()) {
@@ -60,7 +66,7 @@ public class App {
 
         return listaUsuarios;
     }
-    public static void salvarUsuariosNoArquivo(String arquivo) {
+    private static void salvarUsuariosNoArquivo(String arquivo) {
         EscritaSerializada<Usuario> escrita = new EscritaSerializada<Usuario>();
         escrita.abrirArquivo(arquivo);
         try {
@@ -72,7 +78,7 @@ public class App {
         escrita.fecharArquivo();
     }
 
-    public static List<Curso> carregarCursosDoArquivo(String arquivo) {
+    private static List<Curso> carregarCursosDoArquivo(String arquivo) {
         File f = new File(arquivo);
         if (f.exists() && !f.isDirectory()) {
             LeituraSerializada leitura = new LeituraSerializada();
@@ -90,7 +96,7 @@ public class App {
 
         return listaCursos;
     }
-    public static void salvarCursosNoArquivo(String arquivo) {
+    private static void salvarCursosNoArquivo(String arquivo) {
         EscritaSerializada<Curso> escrita = new EscritaSerializada<Curso>();
         escrita.abrirArquivo(arquivo);
         try {
@@ -102,7 +108,7 @@ public class App {
         escrita.fecharArquivo();
     }
 
-    public static List<Disciplina> carregarDisciplinasDoArquivo(String arquivo) {
+    private static List<Disciplina> carregarDisciplinasDoArquivo(String arquivo) {
         File f = new File(arquivo);
         if (f.exists() && !f.isDirectory()) {
             LeituraSerializada leitura = new LeituraSerializada();
@@ -120,7 +126,7 @@ public class App {
 
         return listaDisciplinas;
     }
-    public static void salvarDisciplinasNoArquivo(String arquivo) {
+    private static void salvarDisciplinasNoArquivo(String arquivo) {
         EscritaSerializada<Disciplina> escrita = new EscritaSerializada<Disciplina>();
         escrita.abrirArquivo(arquivo);
         try {
@@ -132,7 +138,7 @@ public class App {
         escrita.fecharArquivo();
     }
 
-    public static List<Turma> carregarTurmaDoArquivo(String arquivo) {
+    private static List<Turma> carregarTurmaDoArquivo(String arquivo) {
         File f = new File(arquivo);
         if (f.exists() && !f.isDirectory()) {
             LeituraSerializada leitura = new LeituraSerializada();
@@ -150,7 +156,7 @@ public class App {
 
         return listaTurmas;
     }
-    public static void salvarTurmaNoArquivo(String arquivo) {
+    private static void salvarTurmaNoArquivo(String arquivo) {
         EscritaSerializada<Turma> escrita = new EscritaSerializada<Turma>();
         escrita.abrirArquivo(arquivo);
         try {
@@ -162,7 +168,7 @@ public class App {
         escrita.fecharArquivo();
     }
 
-    public static Usuario login(Scanner teclado, List<Usuario> usuarios) {
+    private static Usuario login(Scanner teclado, List<Usuario> usuarios) {
         System.out.print("Insira seu email: ");
         String email = teclado.nextLine();
         System.out.print("Insira sua senha: ");

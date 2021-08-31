@@ -1,12 +1,14 @@
-package entidades;
+package entidades.matricula;
 
 import java.io.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import entidades.enums.Semestre;
-import entidades.enums.TurmaStatus;
+import entidades.matricula.enums.Semestre;
+import entidades.matricula.enums.TurmaStatus;
+import entidades.usuarios.Aluno;
+import entidades.usuarios.Professor;
 
 public class Turma implements Serializable {
     private static final long serialVersionUID = 1L;

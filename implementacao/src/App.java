@@ -248,6 +248,7 @@ public class App {
             for (int i = 0; i < listaDisciplinas.size(); i++)
                 System.out.println((i + 1) + " " + listaDisciplinas.get(i).getNome());
 
+            pausa(teclado);
             System.out.print("Numero da Disciplina: ");
             int num = Integer.parseInt(teclado.nextLine());
             ld.add(listaDisciplinas.get(num - 1));
